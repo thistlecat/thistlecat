@@ -11,21 +11,23 @@
           <img style="float:left;" src="milkwhite.png" width="50"><a class="navbar-brand" href="index.php">ThistleCAT <?php echo $libraryname; ?></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-         
+        
+            
           <ul class="nav navbar-nav navbar-left">
+          
+   
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Select Layer... <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="checkouts.php">Total Checkouts</a></li>
-                <li><a href="lastborrowed.php">Last Checkout Date</a></li>
-   
-                <li><a href="languages.php">Language</a></li>
-				<li role="separator" class="divider"></li>
-                <li><a href="overview.php">Clear layers</a></li>
+               <ul class="dropdown-menu">
+                <li><a href="barcodes_issues.php">Total Checkouts</a></li>
+                <li><a href="barcodes_lastborrowed.php">Last Checkout Date</a></li>
+                <li><a href="barcodes_lang.php">Language</strong></a></li>
+                <li role="separator" class="divider"></li>
+               <!-- <li class="dropdown-header">Nav header</li> -->
+                <li><a href="barcodes.php">Clear layers</a></li>
               </ul>
             </li>
           </ul>
-        
         </div>
       </div>
     </nav>
