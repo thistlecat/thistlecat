@@ -40,7 +40,7 @@ $barcode = $_GET["barcode"];
 include "includes/dbconnect.php";
 
 
-$sql0 = 'SELECT title,itemcallnumber,cn_sort,issues,copyrightdate,barcode,oclc,biblionumber,lastborrowed,viva,duplicates FROM ' . THIS_TABLE . ' WHERE barcode = :barcode';
+$sql0 = 'SELECT title,itemcallnumber,cn_sort,issues,copyrightdate,barcode,oclc,biblionumber,lastborrowed,special,duplicates FROM ' . THIS_TABLE . ' WHERE barcode = :barcode';
 
 $stmt = $pdo->prepare($sql0);
 $stmt->execute( array(':barcode' => $barcode ) );
@@ -88,7 +88,7 @@ echo "<tr class='bg-success'><td>";
 echo '<dl class="dl-horizontal">';
 echo '<dt>Special Attributes:</dt>';
 echo '<dd>';
-if ($searchresults['viva'] == "Yes"){echo ' <span class="label label-success">VIVA Protected Title</span>';}
+if ($searchresults['special'] <> ""){echo ' <span class="label label-success">' . $searchresults['special'] . '</span>';}
 echo '</dd>';
 echo '<dd>';
 echo '<span style="float:right;"><button type="button" class="btn btn-danger btn-sm" id="closerecord"><i class="fa fa-times" aria-hidden="true"></i> Close</span>';

@@ -231,7 +231,7 @@ Copyright Date<br />
    <BR />
    
     VIVA Protected Status<br />
-   <select  class="form-control input-sm"  name="viva" >
+   <select  class="form-control input-sm"  name="special" >
      <option value="">All</option>
     <option value="yes">Protected</option>
       <option value="no">Unprotected</option>

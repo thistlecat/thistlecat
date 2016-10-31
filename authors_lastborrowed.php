@@ -219,7 +219,7 @@ $authorarray[] = array(
 
 
 	//now get full item list
-	$sql5 = 'SELECT title,author,itemcallnumber,cn_sort,issues,copyrightdate,barcode,oclc,biblionumber,lastborrowed,viva,duplicates,language FROM ' . THIS_TABLE . ' WHERE ' . $sqlstr . ' ORDER BY cn_sort ASC';
+	$sql5 = 'SELECT title,author,itemcallnumber,cn_sort,issues,copyrightdate,barcode,oclc,biblionumber,lastborrowed,special,duplicates,language FROM ' . THIS_TABLE . ' WHERE ' . $sqlstr . ' ORDER BY cn_sort ASC';
 	$stmt5 = $pdo->prepare($sql5);
 	$stmt5->execute(  );
 	$allresultsitems = $stmt5->fetchAll();
@@ -392,7 +392,7 @@ else { echo $v2['language']; }
 echo "</td>";	
 echo "<td>" . $v2['issues'] . "</td>";
 echo "<td>" . substr($v2['lastborrowed'],0,4) . "</td>";		
-echo "<td><span class='label label-success'>" . $v2['viva'] . "</span>";	
+echo "<td><span class='label label-success'>" . $v2['special'] . "</span>";	
 echo "</td>";	
 echo "<td><a target='_blank' href='https://kohastaff.vmi.edu/cgi-bin/koha/catalogue/search.pl?q=" .  $v2['barcode'] . "'><img src='koha.jpg'></a> <a target='_blank' href='http://vmi.worldcat.org/oclc/" . $v2['oclc'] . "'><img src='worldcat.png'></a></td>";	
 
