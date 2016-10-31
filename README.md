@@ -17,9 +17,9 @@
 
 The items table in ThistleCAT is structured as follows:
 
-| Field          | Type         | Null | Key | Default | Extra |
+| Field          | Type         | Null | Key | Default | Description |
 |----------------|--------------|------|-----|---------|-------|
-| biblionumber   | int(11)      | YES  |     | NULL    |       |
+| biblionumber   | int(11)      | YES  |     | NULL    | Record number of item in OPAC (biblio or item, however your OPAC links to an item). Leave blank if you don't want to use it. |
 | barcode        | varchar(13)  | YES  |     | NULL    |       |
 | title          | varchar(255) | YES  |     | NULL    |       |
 | author         | varchar(255) | YES  |     | NULL    |       |
