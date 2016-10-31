@@ -187,7 +187,7 @@ $comma_separated = implode("' or oclc = '", $paddedentry);
 $comma_separated = "oclc = '" . $comma_separated . "'";
 
 //query each number
-$sql5 = 'SELECT title,author,itemcallnumber,cn_sort,issues,copyrightdate,barcode,oclc,biblionumber,lastborrowed,viva,duplicates FROM ' . THIS_TABLE . ' WHERE ' . $comma_separated . ' GROUP BY oclc';
+$sql5 = 'SELECT title,author,itemcallnumber,cn_sort,issues,copyrightdate,barcode,oclc,biblionumber,lastborrowed,special,duplicates FROM ' . THIS_TABLE . ' WHERE ' . $comma_separated . ' GROUP BY oclc';
 $stmt5 = $pdo->prepare($sql5);
 $stmt5->execute(  );
 $searchresults5 = $stmt5->fetchAll();
@@ -202,8 +202,8 @@ echo "<td  title='Copyright Date'>" . $v2['copyrightdate'] . "</td>";
 echo "<td  title='Total Checkouts'>" . $v2['issues'] . "</td>";
 echo "<td  title='Last Checkout Date'>" . substr($v2['lastborrowed'],0,4) . "</td>";		
 echo "<td>";
-if ($v2['viva']) {
-echo "<span class='label label-success'>VIVA</span>";
+if ($v2['special']) {
+echo "<span class='label label-success'>" . $v2['special'] . "</span>";
 }
 echo "</td>";	
 echo "<td><a target='_blank' href='https://kohastaff.vmi.edu/cgi-bin/koha/catalogue/search.pl?q=" .  $v2['barcode'] . "'><img src='koha.jpg'></a> <a target='_blank' href='http://vmi.worldcat.org/oclc/" . $v2['oclc'] . "'><img src='worldcat.png'></a></td>";	
