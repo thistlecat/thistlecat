@@ -12,7 +12,7 @@ ITEMTABLE="allitems"
 echo "Enter MySQL root password"
 mysql -uroot -p <<MYSQL_SCRIPT
 CREATE DATABASE $DATABASE;
-CREATE TABLE $DATABASE.$ITEMTABLE (biblionumber INT, barcode VARCHAR(13), title VARCHAR(255), author VARCHAR(255), oclc VARCHAR(255), copyrightdate INT, issues INT, itemcallnumber VARCHAR(255), cn_sort VARC$
+CREATE TABLE $DATABASE.$ITEMTABLE (biblionumber INT, barcode VARCHAR(13), title VARCHAR(255), author VARCHAR(255), oclc VARCHAR(255), copyrightdate INT, issues INT, itemcallnumber VARCHAR(255), cn_sort VARCHAR(255), lastborrowed DATETIME, special VARCHAR(255), duplicates VARCHAR(255), language VARCHAR(255), status VARCHAR(255));
 CREATE USER '$USER1'@'localhost' IDENTIFIED BY '$PASS1';
 GRANT SELECT ON $DATABASE.* TO '$USER1'@'localhost';
 CREATE USER '$USER2'@'localhost' IDENTIFIED BY '$PASS2';
