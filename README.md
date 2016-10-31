@@ -17,9 +17,8 @@
 
 The items table in ThistleCAT is structured as follows:
 
-+----------------+--------------+------+-----+---------+-------+
 | Field          | Type         | Null | Key | Default | Extra |
-+----------------+--------------+------+-----+---------+-------+
+|----------------|--------------|------|-----|---------|-------|
 | biblionumber   | int(11)      | YES  |     | NULL    |       |
 | barcode        | varchar(13)  | YES  |     | NULL    |       |
 | title          | varchar(255) | YES  |     | NULL    |       |
@@ -34,7 +33,7 @@ The items table in ThistleCAT is structured as follows:
 | duplicates     | varchar(255) | YES  |     | NULL    |       |
 | language       | varchar(255) | YES  |     | NULL    |       |
 | status         | varchar(255) | YES  |     | NULL    |       |
-+----------------+--------------+------+-----+---------+-------+
+
 
 * biblionumber - Record number of item in OPAC (biblio or item, however your OPAC links to an item). Leave blank if you don't want to use it.
 * barcode - Barcode of item.
