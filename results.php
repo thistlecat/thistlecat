@@ -46,6 +46,9 @@ th { cursor: pointer; }
 
 <?php
  
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 
 include "config.php";
@@ -257,7 +260,7 @@ if (strpos($pageload,"authors") > -1){
 	$thissearch = "(cn_sort REGEXP '^" . $thissearch[0] . "' OR cn_sort REGEXP '^" . $thissearch[1] . "' OR (cn_sort >= '" . $thissearch[0] . "' AND cn_sort <= '" . $thissearch[1] . "'))";
 	}
 	
-$sql0 = 'SELECT title,author,itemcallnumber,cn_sort,issues,copyrightdate,barcode,oclc,biblionumber,lastborrowed,viva,duplicates,language FROM ' . THIS_TABLE . ' WHERE ' . $thissearch . ' ' . $issuessearch . ' ORDER BY cn_sort ASC';
+$sql0 = 'SELECT title,author,itemcallnumber,cn_sort,issues,copyrightdate,barcode,oclc,biblionumber,lastborrowed,special,duplicates,language FROM ' . THIS_TABLE . ' WHERE ' . $thissearch . ' ' . $issuessearch . ' ORDER BY cn_sort ASC';
 $stmt = $pdo->prepare($sql0);
 $stmt->execute( );
 
@@ -265,7 +268,7 @@ $stmt->execute( );
 
 else if (strpos($pageload,"languagesbreakout.php") > -1){
 	
-$sql0 = 'SELECT title,author,itemcallnumber,cn_sort,issues,copyrightdate,barcode,oclc,biblionumber,lastborrowed,viva,duplicates,language FROM ' . THIS_TABLE . ' WHERE itemcallnumber REGEXP  :lcclass ' . $issuessearch . ' ORDER BY cn_sort ASC';
+$sql0 = 'SELECT title,author,itemcallnumber,cn_sort,issues,copyrightdate,barcode,oclc,biblionumber,lastborrowed,special,duplicates,language FROM ' . THIS_TABLE . ' WHERE itemcallnumber REGEXP  :lcclass ' . $issuessearch . ' ORDER BY cn_sort ASC';
 $stmt = $pdo->prepare($sql0);
 $stmt->execute( array(':lcclass' => "^" . $thisclass ) );
 
@@ -273,7 +276,7 @@ $stmt->execute( array(':lcclass' => "^" . $thisclass ) );
 }
 else {
 
-$sql0 = 'SELECT title,author,itemcallnumber,cn_sort,issues,copyrightdate,barcode,oclc,biblionumber,lastborrowed,viva,duplicates,language FROM ' . THIS_TABLE . ' WHERE itemcallnumber REGEXP  :lcclass and ' . $searchfield . ' = :cdate  ' . $issuessearch . ' ORDER BY cn_sort ASC';
+$sql0 = 'SELECT title,author,itemcallnumber,cn_sort,issues,copyrightdate,barcode,oclc,biblionumber,lastborrowed,special,duplicates,language FROM ' . THIS_TABLE . ' WHERE itemcallnumber REGEXP  :lcclass and ' . $searchfield . ' = :cdate  ' . $issuessearch . ' ORDER BY cn_sort ASC';
 $stmt = $pdo->prepare($sql0);
 $stmt->execute( array(':lcclass' => "^" . $thisclass,':cdate' => $searchinfo ) );
 
@@ -294,7 +297,7 @@ echo "<td>" . $v2['barcode'] . "</td>";
 echo "<td  class='col-md-3'>";
 
 //insert first catalog link, if there is one
-if ($catalogs) {
+if ($catalogs[0]['field'] <> "") {
 $fixedurl = str_replace("MAGICNUMBER", $v2[$catalogs[0]['field']], $catalogs[0]['pattern']);		
 echo "<a target='_blank' href='" . $fixedurl . "'>";
 echo $v2['title'];
@@ -341,7 +344,7 @@ else { echo $v2['language']; }
 echo "</td>";	
 echo "<td>" . $v2['issues'] . "</td>";
 echo "<td>" . substr($v2['lastborrowed'],0,4) . "</td>";		
-echo "<td><span class='label label-success'>" . $v2['viva'] . "</span>";	
+echo "<td><span class='label label-success'>" . $v2['special'] . "</span>";	
 echo "</td>";	
 
 

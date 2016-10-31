@@ -69,8 +69,8 @@ $(document).ready(function()
 				if (strsplit[0] == 'holdingsloc'){
 					  		$('#' + strsplit[1]).prop('checked',true);
 							} 
-				if (strsplit[0] == 'viva'){
-					  		$("#viva").val(strsplit[1]);
+				if (strsplit[0] == 'special'){
+					  		$("#special").val(strsplit[1]);
 							} 
 					if (strsplit[0] == 'language'){
 					  		$("#language").val(strsplit[1]);
@@ -231,7 +231,7 @@ Copyright Date<br />
    <BR />
    
     VIVA Protected Status<br />
-   <select  class="form-control input-sm"  name="viva" id="viva" >
+   <select  class="form-control input-sm"  name="special" id="special" >
      <option value="">All</option>
     <option value="yes">Protected</option>
       <option value="no">Unprotected</option>
@@ -348,9 +348,9 @@ if (($k == 'holdings') and ($v <> "")) {
 		}
 	$queryarray[] = ' ' . $query_array['holdingsloc'] . 'Holdings ' . $boolean . ' "' . $v . '"';
 	} 	
-if ($k == 'viva') {
-if ($v == 'yes') {$queryarray[] = ' viva = "' . $v . '"';}
-if ($v == 'no') {$queryarray[] = ' viva is null';}
+if ($k == 'special') {
+if ($v == 'yes') {$queryarray[] = ' special REGEXP "VIVA"';}
+if ($v == 'no') {$queryarray[] = ' special is null';}
 }
 if ($k == 'duplicates') {
 if ($v == 'yes') {$queryarray[] = ' duplicates is not null';}
@@ -371,7 +371,7 @@ $thisquery = implode(" and ", $queryarray);
 	
 include "includes/dbconnect.php";
 
-$sql0 = 'SELECT title,author,itemcallnumber,cn_sort,issues,copyrightdate,barcode,oclc,biblionumber,lastborrowed,viva,duplicates,language,status FROM ' . THIS_TABLE . ' WHERE' . $thisquery . ' ORDER BY cn_sort ASC';
+$sql0 = 'SELECT title,author,itemcallnumber,cn_sort,issues,copyrightdate,barcode,oclc,biblionumber,lastborrowed,special,duplicates,language,status FROM ' . THIS_TABLE . ' WHERE' . $thisquery . ' ORDER BY cn_sort ASC';
 
 $stmt = $pdo->prepare($sql0);
 $stmt->execute(  );
@@ -524,8 +524,8 @@ echo "</td>";
 echo "<td  title='Total Checkouts'>" . $v2['issues'] . "</td>";
 echo "<td  title='Last Checkout Date'>" . substr($v2['lastborrowed'],0,4) . "</td>";		
 echo "<td>";
-if ($v2['viva']) {
-echo "<span class='label label-success'>VIVA</span>";
+if ($v2['special']) {
+echo "<span class='label label-success'>" . $v2['special'] . "</span>";
 }
 echo "</td>";		
 echo "<td><a target='_blank' href='https://kohastaff.vmi.edu/cgi-bin/koha/catalogue/search.pl?q=" .  $v2['barcode'] . "'><img src='koha.jpg'></a> <a target='_blank' href='http://vmi.worldcat.org/oclc/" . $v2['oclc'] . "'><img src='worldcat.png'></a></td>";	
