@@ -11,11 +11,11 @@ define('THIS_DB','');
 define('THIS_TABLE','');
 
 //mysql username and password with select permissions only
-define('COLL_USER','');
+define('COLL_USER','thistleuser');
 define('COLL_PASS', '');
 
 //mysql username and password with select and update permissions
-define('COLL_USEREDIT','');
+define('COLL_USEREDIT','thistleedit');
 define('COLL_PASSEDIT', '');
 
 $libraryname = "";
