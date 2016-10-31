@@ -52,6 +52,8 @@ The items table in ThistleCAT is structured as follows:
 
 # LC Call Number Formatting
 
+The cn_sort field should contain LC call numbers formatted as follows:
+
 Class numbers are always padded to 4 digits. E.g.,
 * PQ239 = PQ0239
 
