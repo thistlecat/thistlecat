@@ -8,7 +8,7 @@
 
 # Installation Steps
 1. Unpack ZIP file to any directory on your web server.
-2. Run setup/setup_database.sh. (Feel free to modify database/table names beforehand if you want, but be sure to also update this information in config.php after setup).
+2. Run setup/create_database.sh. (Feel free to modify database/table names beforehand if you want, but be sure to also update this information in config.php after setup).
 3. [Import your item data](#importing-your-data) into the items table created by the script.
 4. Edit config.php with your institution-specific information.
 
