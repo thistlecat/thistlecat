@@ -186,7 +186,7 @@ foreach ($classesonly as $thisclass){
 	$newdata1 =  array (
       'value' => ''
     );
-		$group0results[$thisclass] = $newdata1;
+		$group1results[$thisclass] = $newdata1;
 }	
 }
 
