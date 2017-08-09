@@ -13,6 +13,9 @@ define('THIS_TABLE','');
 //author table name
 define('AUTHOR_TABLE','');
 
+//LC data table name
+define('LC_TABLE','');
+
 //mysql username and password with select permissions only
 define('COLL_USER','thistleuser');
 define('COLL_PASS', '');
@@ -26,16 +29,24 @@ $libraryname = "";
 
 //configure catalog links, you can have as many as you want
 //make sure the field name to search on matches the column name in the database
-//enter the URL pattern using the string "MAGICNUMBER" in place of the field being searched
-//e.g., "http://vmi.worldcat.org/oclc/MAGICNUMBER"
+//enter the URL pattern using the string "MAGICNUMBER" in place of the data being searched
+//e.g., "http://yourlibrary.catalog.edu?record=b351241" should be entered as
+//$catalogs = array( 
+//            array (
+//              "field" => "biblionumber",
+//              "pattern" => "http://yourlibrary.catalog.edu?record=MAGICNUMBER",
+//	        "abbrev" => "Catalog"
+//            )
+//         );
+
 $catalogs = array( 
             array (
                "field" => "",
                "pattern" => "",
-			   "icon" => "",
-			   "abbrev" => ""
+	       "abbrev" => ""
             )
          );
+
 
 
 //enter ip addresses allowed to change weeding statuses separated by a comma and enclosed in quotes
