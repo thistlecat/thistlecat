@@ -1,3 +1,5 @@
+<?php
+
 function ipCIDRCheck($IP, $CIDR) {
     list ($net, $mask) = explode ('/', $CIDR);
     $ip_net = ip2long ($net);
@@ -31,3 +33,5 @@ $logstatus = "loggedin";
 else{
 $logstatus = "";
 }
+
+?>
