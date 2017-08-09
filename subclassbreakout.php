@@ -64,7 +64,7 @@ if (is_numeric(substr($v4['label'],1,1)))	{
 }
 
 $letteronlyarray = array("label" => $singlecharlabel . "0" ,"value" => $singlecharvalue);
-$recordresults[0] = $letteronlyarray;
+$recordresults[] = $letteronlyarray;
 //sort array to force the new one at the beginning
 asort($recordresults);
 //reset array keys

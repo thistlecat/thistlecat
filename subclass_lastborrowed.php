@@ -58,7 +58,7 @@ if (is_numeric(substr($v4['label'],1,1)))	{
 }
 
 $letteronlyarray = array("label" => $singlecharlabel . "0" ,"value" => $singlecharvalue);
-$alldates[0] = $letteronlyarray;
+$alldates[] = $letteronlyarray;
 
 //sort by keys to force the new one at the beginning
 ksort($alldates);

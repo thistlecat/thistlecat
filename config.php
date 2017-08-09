@@ -7,7 +7,7 @@ define('THIS_HOST','localhost');
 //database name
 define('THIS_DB','');
 
-//table name
+//item table name
 define('THIS_TABLE','');
 
 //mysql username and password with select permissions only
@@ -41,7 +41,7 @@ $catalogs = array(
 $ipranges = array('');
 
 //to allow all users to edit statuses, uncomment the line below (this is NOT advised to do on a production database)
-$allowallip = 'true';
+//$allowallip = 'true';
 
 
 
