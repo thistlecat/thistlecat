@@ -47,8 +47,37 @@ $stmt->execute( array(':barcode' => $barcode ) );
 $searchresults = $stmt->fetch();
 
 
-echo "<tr class='active'><td><h3>" . $searchresults['title'];
-echo "<span class='headerbuttons'><a target='_blank' href='https://kohastaff.vmi.edu/cgi-bin/koha/catalogue/search.pl?q=" .  $searchresults['barcode'] . "'><img src='koha.jpg'></a> <a target='_blank' href='http://vmi.worldcat.org/oclc/" . $searchresults['oclc'] . "'><img src='worldcat.png'></a></span></h3></td></tr>";
+echo "<tr class='active'><td><h3>";
+
+//insert first catalog link, if there is one
+if ($catalogs[0]['field'] <> "") {
+$fixedurl = str_replace("MAGICNUMBER", $searchresults[$catalogs[0]['field']], $catalogs[0]['pattern']);		
+echo "<a target='_blank' href='" . $fixedurl . "'>";
+echo $searchresults['title'];
+echo "</a>";
+
+//check if there are multiple catalog entries
+if (count($catalogs) > 1){
+	
+	    //copy original array so we can shift it (remove first element)
+		$shiftedarray = $catalogs;
+		array_shift($shiftedarray);
+		foreach ($shiftedarray as $catval){
+			
+		
+		$fixedurl = str_replace("MAGICNUMBER", $searchresults[$catval['field']], $catval['pattern']);		
+		echo " <a target='_blank' href='" . $fixedurl . "'>[" . $catval['abbrev'] . "]</a>";
+		}
+}
+
+}
+else{
+echo $searchresults['title'];
+	
+	
+}
+		   
+echo "</tr>";
 echo "<tr ><td> <div class='row'>";
    
       

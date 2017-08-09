@@ -16,7 +16,7 @@ $authorarray = array();
 
 
 
-$sql0 = 'SELECT authorname, cnstart, cnend, totals,originalworks FROM PRauthors WHERE cnstart REGEXP "^' . $thisregion . '" ORDER BY totals DESC';
+$sql0 = 'SELECT authorname, cnstart, cnend, totals,originalworks FROM ' . AUTHOR_TABLE . ' WHERE cnstart REGEXP "^' . $thisregion . '" ORDER BY totals DESC';
 $stmt = $pdo->prepare($sql0);
 $stmt->execute( );
 $allauthors = $stmt->fetchAll();

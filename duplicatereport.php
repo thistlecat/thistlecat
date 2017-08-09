@@ -130,7 +130,7 @@ else {
              
                   <th>Special Attributes</th>
                 
-                  <th>Catalog Links</th>
+                 
                 </tr>
               </thead>
               <tbody>';
@@ -196,7 +196,37 @@ foreach ($searchresults5 as $v2){
 echo "<tr>";
 echo "<td>" . $v2['itemcallnumber'] . "</td>";	
 echo "<td>" . $v2['barcode'] . "</td>";	
-echo "<td  class='col-md-3'>" . $v2['title']. "</td>";
+echo "<td  class='col-md-3'>";
+	
+//insert first catalog link, if there is one
+if ($catalogs[0]['field'] <> "") {
+$fixedurl = str_replace("MAGICNUMBER", $v2[$catalogs[0]['field']], $catalogs[0]['pattern']);		
+echo "<a target='_blank' href='" . $fixedurl . "'>";
+echo $v2['title'];
+echo "</a>";
+
+//check if there are multiple catalog entries
+if (count($catalogs) > 1){
+	
+	    //copy original array so we can shift it (remove first element)
+		$shiftedarray = $catalogs;
+		array_shift($shiftedarray);
+		foreach ($shiftedarray as $catval){
+			
+		
+		$fixedurl = str_replace("MAGICNUMBER", $v2[$catval['field']], $catval['pattern']);		
+		echo " <a target='_blank' href='" . $fixedurl . "'>[" . $catval['abbrev'] . "]</a>";
+		}
+}
+
+}
+else{
+echo $v2['title'];
+	
+	
+}
+	
+echo "</td>";
 echo "<td>" . $v2['author']. "</td>";
 echo "<td  title='Copyright Date'>" . $v2['copyrightdate'] . "</td>";	
 echo "<td  title='Total Checkouts'>" . $v2['issues'] . "</td>";
@@ -206,8 +236,6 @@ if ($v2['special']) {
 echo "<span class='label label-success'>" . $v2['special'] . "</span>";
 }
 echo "</td>";	
-echo "<td><a target='_blank' href='https://kohastaff.vmi.edu/cgi-bin/koha/catalogue/search.pl?q=" .  $v2['barcode'] . "'><img src='koha.jpg'></a> <a target='_blank' href='http://vmi.worldcat.org/oclc/" . $v2['oclc'] . "'><img src='worldcat.png'></a></td>";	
-
 echo "</tr>";
 }
 echo "<tr><td colspan='11' bgcolor='#999'></td></tr>";

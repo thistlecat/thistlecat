@@ -19,7 +19,7 @@ include "includes/dbconnect.php";
 
 	
 	//get author call number range
-	$sql0 = 'SELECT authorname, cnstart, cnend FROM PRauthors WHERE authorname = :authorname';
+	$sql0 = 'SELECT authorname, cnstart, cnend FROM ' . AUTHOR_TABLE . ' WHERE authorname = :authorname';
 	$stmt = $pdo->prepare($sql0);
 	$stmt->execute(array(':authorname' => $thisauthor)  );
 	$authorinfo= $stmt->fetch();	
@@ -224,7 +224,7 @@ $jsongroup3 = json_encode(array_values($group3results));
 
 
 //first get all possible authors for left menu
-$sqlx = 'SELECT authorname, cnstart, cnend, totals FROM PRauthors WHERE cnstart REGEXP "^' . $thisregion . '" ORDER BY totals DESC';
+$sqlx = 'SELECT authorname, cnstart, cnend, totals FROM ' . AUTHOR_TABLE . ' WHERE cnstart REGEXP "^' . $thisregion . '" ORDER BY totals DESC';
 $stmt = $pdo->prepare($sqlx);
 $stmt->execute( );
 $allauthors = $stmt->fetchAll();
@@ -392,8 +392,7 @@ echo ' <a download="somedata.csv" href="#" onclick="return ExcellentExport.csv(t
                   <th>Last Checkout Date</th>
                  
                  <th>Special Attributes</th>
-                
-                  <th>Catalog Links</th>
+ 
                 </tr>
               </thead>
               <tbody>';
@@ -402,7 +401,36 @@ foreach ($allresultsitems as $v2){
 echo "<tr>";
 echo "<td>" . $v2['itemcallnumber'] . "</td>";	
 echo "<td>" . $v2['barcode'] . "</td>";	
-echo "<td  class='col-md-3'>" . $v2['title'];
+echo "<td  class='col-md-3'>";
+	
+//insert first catalog link, if there is one
+if ($catalogs[0]['field'] <> "") {
+$fixedurl = str_replace("MAGICNUMBER", $v2[$catalogs[0]['field']], $catalogs[0]['pattern']);		
+echo "<a target='_blank' href='" . $fixedurl . "'>";
+echo $v2['title'];
+echo "</a>";
+
+//check if there are multiple catalog entries
+if (count($catalogs) > 1){
+	
+	    //copy original array so we can shift it (remove first element)
+		$shiftedarray = $catalogs;
+		array_shift($shiftedarray);
+		foreach ($shiftedarray as $catval){
+			
+		
+		$fixedurl = str_replace("MAGICNUMBER", $v2[$catval['field']], $catval['pattern']);		
+		echo " <a target='_blank' href='" . $fixedurl . "'>[" . $catval['abbrev'] . "]</a>";
+		}
+}
+
+}
+else{
+echo $v2['title'];
+	
+	
+}
+	
 if ($v2['duplicates']){
 	echo "<br /><small class='text-muted'>Possible duplicates:</small> ";
 //parse dups list	
@@ -423,8 +451,6 @@ echo "<td>" . $v2['issues'] . "</td>";
 echo "<td>" . substr($v2['lastborrowed'],0,4) . "</td>";		
 echo "<td><span class='label label-success'>" . $v2['special'] . "</span>";	
 echo "</td>";
-echo "<td><a target='_blank' href='https://kohastaff.vmi.edu/cgi-bin/koha/catalogue/search.pl?q=" .  $v2['barcode'] . "'><img src='koha.jpg'></a> <a target='_blank' href='http://vmi.worldcat.org/oclc/" . $v2['oclc'] . "'><img src='worldcat.png'></a></td>";	
-
 echo "</tr>";
 }
 
