@@ -19,7 +19,7 @@ include "includes/dbconnect.php";
 
 	
 	//get author call number range
-	$sql0 = 'SELECT authorname, cnstart, cnend FROM PRauthors WHERE authorname = :authorname';
+	$sql0 = 'SELECT authorname, cnstart, cnend FROM ' . AUTHOR_TABLE . ' WHERE authorname = :authorname';
 	$stmt = $pdo->prepare($sql0);
 	$stmt->execute(array(':authorname' => $thisauthor)  );
 	$authorinfo= $stmt->fetch();	
@@ -224,7 +224,7 @@ $jsongroup3 = json_encode(array_values($group3results));
 
 
 //first get all possible authors for left menu
-$sqlx = 'SELECT authorname, cnstart, cnend, totals FROM PRauthors WHERE cnstart REGEXP "^' . $thisregion . '" ORDER BY totals DESC';
+$sqlx = 'SELECT authorname, cnstart, cnend, totals FROM ' . AUTHOR_TABLE . ' WHERE cnstart REGEXP "^' . $thisregion . '" ORDER BY totals DESC';
 $stmt = $pdo->prepare($sqlx);
 $stmt->execute( );
 $allauthors = $stmt->fetchAll();
