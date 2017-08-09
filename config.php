@@ -10,6 +10,9 @@ define('THIS_DB','');
 //item table name
 define('THIS_TABLE','');
 
+//author table name
+define('AUTHOR_TABLE','');
+
 //mysql username and password with select permissions only
 define('COLL_USER','thistleuser');
 define('COLL_PASS', '');
