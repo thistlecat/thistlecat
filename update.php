@@ -6,7 +6,8 @@ include 'config.php';
 include 'includes/ipauth.php';
 
 
-if ($logstatus == "loggedin";) {
+
+if ($logstatus == "loggedin") {
 
 
 
