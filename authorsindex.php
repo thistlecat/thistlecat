@@ -9,7 +9,7 @@ include "includes/dbconnect.php";
 
 //get all possible authors for master list
 $authorarray = array();
-$sql0 = 'SELECT authorname, cnstart, cnend, totals FROM PRauthors ORDER BY totals DESC';
+$sql0 = 'SELECT authorname, cnstart, cnend, totals FROM ' . AUTHOR_TABLE . ' ORDER BY totals DESC';
 $stmt = $pdo->prepare($sql0);
 $stmt->execute( );
 $allauthors = $stmt->fetchAll();
