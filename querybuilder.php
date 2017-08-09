@@ -4,14 +4,8 @@ $pagetitle = "Query Builder";
 
 include 'config.php';
 
-//get user IP to allow for updating
-if ((in_array($_SERVER['REMOTE_ADDR'], $ipranges) or (isset($allowallip)))) {
-$logstatus = "loggedin";
-}
-
-else{
-$logstatus = "";
-}
+//authenticate user's IP
+include 'includes/ipauth.php';
 
 include "includes/header.php";
 ?>
