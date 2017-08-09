@@ -1,16 +1,12 @@
 <?php
 
-//ini_set('display_errors', 1);
-//ini_set('display_startup_errors', 1);
-//error_reporting(E_ALL);
-
-
 include 'config.php';
 
+//authenticate user's IP
+include 'includes/ipauth.php';
 
-//get user IP to allow for updating
-$thisip = $_SERVER['REMOTE_ADDR'];
-if ((in_array($_SERVER['REMOTE_ADDR'], $ipranges) or (isset($allowallip)))) {
+
+if ($logstatus == "loggedin";) {
 
 
 

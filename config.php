@@ -49,8 +49,9 @@ $catalogs = array(
 
 
 
-//enter ip addresses allowed to change weeding statuses separated by a comma and enclosed in quotes
-//e.g., $ipranges = array('144.75.185.37','144.75.185.24');
+//enter single IP addresses or CIDRs (separated by commas) to allow users to change weeding statuses
+//e.g., $ipranges = array('144.75.185.37','144.75.196.0/24');
+
 //this can be left empty if you don't want to use this feature
 $ipranges = array('');
 
