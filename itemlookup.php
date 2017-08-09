@@ -47,7 +47,7 @@ $stmt->execute( array(':barcode' => $barcode ) );
 $searchresults = $stmt->fetch();
 
 
-echo "<tr class='active'><td><h3>" . $searchresults['title'];
+echo "<tr class='active'><td><h3>";
 
 //insert first catalog link, if there is one
 if ($catalogs[0]['field'] <> "") {
