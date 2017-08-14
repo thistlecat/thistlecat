@@ -343,9 +343,7 @@ $(document).ready(function(e) {
 var url = window.location.href;
 var matchvar = url.match(/\?lcclass=[A-Z]/gi);
 if(url.indexOf(matchvar) != -1){
-     $('input:radio[id=<?php
-echo $_GET['lcclass'];
-?>]').prop('checked', true);
+     $('input:radio[id=<?php echo $_GET['lcclass']; ?>]').prop('checked', true);
 }
 else{
 	     $('input:radio[id=All]').prop('checked', true);
@@ -482,11 +480,7 @@ $(document).ready(function(e) {
 $("#resultstab").tablesorter(); 
 
 //get position of chosen lc class among accordion headers so we know which one to expand
-   var curclass=	$("#<?php
-echo substr($lcclass, 0, 1);
-?>class").parent().children('h3').index($('#<?php
-echo substr($lcclass, 0, 1);
-?>class'));
+   var curclass=	$("#<?php echo substr($lcclass, 0, 1); ?>class").parent().children('h3').index($('#<?php echo substr($lcclass, 0, 1); ?>class'));
 if (curclass == -1){
 var findclass = false;	
 }
