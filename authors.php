@@ -159,11 +159,7 @@ var url = window.location.href;
 var matchvar = url.match(/\?author=[A-Z]/gi);
 if(url.indexOf(matchvar) != -1){
     var tableRow = $("#resultstab tr td").filter(function() {
-    return $(this).text() == "<?php
-echo $thisauthor;
-?>";
-        }).parent('tr').addClass('table-success');
-
+    return $(this).text() == "<?php echo $thisauthor; ?>"; }).parent('tr').addClass('table-success');
 }
 });
 
