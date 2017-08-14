@@ -48,7 +48,7 @@ $classesonly[] = 	$v2['label'];
 
 
 $singlecharlabel = $lcclass;
-$singlecharvalue = '';
+$singlecharvalue = 0;
 foreach ($alldates as $k4=>$v4){
 if (is_numeric(substr($v4['label'],1,1)))	{ 
  $singlecharvalue+= $v4['value'];
@@ -58,10 +58,9 @@ if (is_numeric(substr($v4['label'],1,1)))	{
 }
 
 $letteronlyarray = array("label" => $singlecharlabel . "0" ,"value" => $singlecharvalue);
-$alldates[] = $letteronlyarray;
 
-//sort by keys to force the new one at the beginning
-ksort($alldates);
+//add to the beginning
+array_unshift($alldates, $letteronlyarray); 
 
 
 //combine all results with a single character sublcass into one (e.g., B1000 and B2000 show up as B1 and B2, make them all B0 instead)
@@ -93,7 +92,7 @@ $group0results = $stmt->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_UNIQUE);
 
 //combine all results with a single character sublcass into one (e.g., B1000 and B2000 show up as B1 and B2, make them all B0 instead)
 $singlecharlabel = $lcclass;
-$singlecharvalue = '';
+$singlecharvalue = 0;
 foreach ($group0results as $k4=>$v4){
 if (is_numeric(substr($k4,1,1)))	{ 
  $singlecharvalue+= $v4['value'];
@@ -120,7 +119,7 @@ ksort($group0results);
 foreach ($classesonly as $thisclass){
 	if (!array_key_exists($thisclass, $group0results)) {
 	$newdata1 =  array (
-      'value' => ''
+      'value' => '0'
     );
 		$group0results[$thisclass] = $newdata1;
 }	
@@ -148,7 +147,7 @@ $group1results = $stmt->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_UNIQUE);
 
 //combine all results with a single character sublcass into one (e.g., B1000 and B2000 show up as B1 and B2, make them all B0 instead)
 $singlecharlabel = $lcclass;
-$singlecharvalue = '';
+$singlecharvalue = 0;
 foreach ($group1results as $k4=>$v4){
 if (is_numeric(substr($k4,1,1)))	{ 
  $singlecharvalue+= $v4['value'];
@@ -175,9 +174,9 @@ ksort($group1results);
 foreach ($classesonly as $thisclass){
 	if (!array_key_exists($thisclass, $group1results)) {
 	$newdata1 =  array (
-      'value' => ''
+      'value' => '0'
     );
-		$group0results[$thisclass] = $newdata1;
+		$group1results[$thisclass] = $newdata1;
 }	
 }
 
@@ -201,7 +200,7 @@ $group2results = $stmt->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_UNIQUE);
 
 //combine all results with a single character sublcass into one (e.g., B1000 and B2000 show up as B1 and B2, make them all B0 instead)
 $singlecharlabel = $lcclass;
-$singlecharvalue = '';
+$singlecharvalue = 0;
 foreach ($group2results as $k4=>$v4){
 if (is_numeric(substr($k4,1,1)))	{ 
  $singlecharvalue+= $v4['value'];
@@ -228,7 +227,7 @@ ksort($group2results);
 foreach ($classesonly as $thisclass){
 	if (!array_key_exists($thisclass, $group2results)) {
 	$newdata1 =  array (
-      'value' => ''
+      'value' => '0'
     );
 		$group2results[$thisclass] = $newdata1;
 }	
@@ -257,10 +256,10 @@ $jsongroup2 = json_encode(array_values($group2results));
 $percents = array();
 
 
-foreach ($group0results as $tkey => $tval){
-	
+foreach ($alldates as $tval){
+	$tkey = $tval['label'];
 	$percentstemp =  array (
-     $tval['value'],
+     $group0results[$tkey]['value'],
 	 $group1results[$tkey]['value'],
 	 $group2results[$tkey]['value'],
     );
