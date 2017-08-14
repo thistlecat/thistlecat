@@ -19,13 +19,6 @@
     <link href="css/dashboard.css" rel="stylesheet">
  <?php
 
-
-
-
-	//if (isset($_GET['lcclass'])){ $lcclass = $_GET['lcclass']; }
-	//else {	$lcclass = "";}
-	
-	//if ($lcclass == ""){exit();}
 	
 include "config.php";
 include "includes/dbconnect.php";
