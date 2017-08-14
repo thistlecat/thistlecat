@@ -54,7 +54,7 @@ $recordresults = $stmt->fetchAll();
 
 //combine all results with a single character sublcass into one (e.g., B1000 and B2000 show up as B1 and B2, make them all B0 instead)
 $singlecharlabel = $lcclass;
-$singlecharvalue = '';
+$singlecharvalue = 0;
 foreach ($recordresults as $k4=>$v4){
 if (is_numeric(substr($v4['label'],1,1)))	{ 
  $singlecharvalue+= $v4['value'];
