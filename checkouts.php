@@ -301,11 +301,6 @@ $("#resultstab").tablesorter();
 
 //get position of chosen lc class among accordion headers so we know which one to expand
 
-//if (curclass == -1){
-//var findclass = "false";	
-//}
-//else {var findclass = curclass-1;}
-
   $( "#accordion" ).accordion({
   heightStyle: "content",
   collapsible: true,
