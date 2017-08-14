@@ -48,7 +48,7 @@ $classesonly[] = 	$v2['label'];
 
 
 $singlecharlabel = $lcclass;
-$singlecharvalue = '0';
+$singlecharvalue = 0;
 foreach ($alldates as $k4=>$v4){
 if (is_numeric(substr($v4['label'],1,1)))	{ 
  $singlecharvalue+= $v4['value'];
@@ -89,7 +89,7 @@ $groupxresults = $stmt->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_UNIQUE);
 
 //combine all results with a single character sublcass into one (e.g., B1000 and B2000 show up as B1 and B2, make them all B0 instead)
 $singlecharlabel = $lcclass;
-$singlecharvalue = '0';
+$singlecharvalue = 0;
 foreach ($groupxresults as $k4=>$v4){
 if (is_numeric(substr($k4,1,1)))	{ 
  $singlecharvalue+= $v4['value'];
@@ -152,7 +152,7 @@ $group0results = $stmt->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_UNIQUE);
 
 //combine all results with a single character sublcass into one (e.g., B1000 and B2000 show up as B1 and B2, make them all B0 instead)
 $singlecharlabel = $lcclass;
-$singlecharvalue = '0';
+$singlecharvalue = 0;
 foreach ($group0results as $k4=>$v4){
 if (is_numeric(substr($k4,1,1)))	{ 
  $singlecharvalue+= $v4['value'];
@@ -207,7 +207,7 @@ $group1results = $stmt->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_UNIQUE);
 
 //combine all results with a single character sublcass into one (e.g., B1000 and B2000 show up as B1 and B2, make them all B0 instead)
 $singlecharlabel = $lcclass;
-$singlecharvalue = '0';
+$singlecharvalue = 0;
 foreach ($group1results as $k4=>$v4){
 if (is_numeric(substr($k4,1,1)))	{ 
  $singlecharvalue+= $v4['value'];
@@ -260,7 +260,7 @@ $group2results = $stmt->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_UNIQUE);
 
 //combine all results with a single character sublcass into one (e.g., B1000 and B2000 show up as B1 and B2, make them all B0 instead)
 $singlecharlabel = $lcclass;
-$singlecharvalue = '0';
+$singlecharvalue = 0;
 foreach ($group2results as $k4=>$v4){
 if (is_numeric(substr($k4,1,1)))	{ 
  $singlecharvalue+= $v4['value'];
@@ -313,7 +313,7 @@ $group3results = $stmt->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_UNIQUE);
 
 //combine all results with a single character sublcass into one (e.g., B1000 and B2000 show up as B1 and B2, make them all B0 instead)
 $singlecharlabel = $lcclass;
-$singlecharvalue = '';
+$singlecharvalue = 0;
 foreach ($group3results as $k4=>$v4){
 if (is_numeric(substr($k4,1,1)))	{ 
  $singlecharvalue+= $v4['value'];
