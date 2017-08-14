@@ -42,9 +42,7 @@ $(document).ready(function(e) {
 var url = window.location.href;
 var matchvar = url.match(/\?lcclass=[A-Z]/gi);
 if(url.indexOf(matchvar) != -1){
-     $('input:radio[id=<?php
-echo $_GET['lcclass'];
-?>]').prop('checked', true);
+     $('input:radio[id=<?php echo $_GET['lcclass']; ?>]').prop('checked', true);
 }
 });		 	 
 </script>
