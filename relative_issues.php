@@ -4,66 +4,39 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
     
-
-
  <?php
 
-
-
-
-	//if (isset($_GET['lcclass'])){ $lcclass = $_GET['lcclass']; }
-	//else {	$lcclass = "";}
-	
-	//if ($lcclass == ""){exit();}
-	
-
-include "config.php";	
+include "config.php";
 include "includes/dbconnect.php";
 
-
-
-
-$sql = 'SELECT LEFT(itemcallnumber,1) as label, SUM(issues) as checkouts, count(*) as items FROM ' . THIS_TABLE . ' GROUP BY LEFT(itemcallnumber,1)';
+$sql  = 'SELECT LEFT(itemcallnumber,1) as label, SUM(issues) as checkouts, count(*) as items FROM ' . THIS_TABLE . ' GROUP BY LEFT(itemcallnumber,1)';
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $allyears = $stmt->fetchAll();
 
 //calculate ratio of checkouts to total items, and save as chartable value
-foreach  ($allyears as $key=>&$thisval){
-	$thisval['value'] = $thisval['checkouts'] / $thisval['items'];
-	
+foreach ($allyears as $key => &$thisval) {
+    $thisval['value'] = $thisval['checkouts'] / $thisval['items']; 
 }
 
 $jsonresults = json_encode($allyears);
 
-
 //set page title here
 $pagetitle = "Total Checkouts/Total Items";
-
-
 
 include "includes/header.php";
 
 ?>
 
-
 <script type="text/javascript">
-
 function getresults(year,series,lcclass){
 	$("#itemsgohere").load("results.php?year=" + year + "&series=" + series + "&lcclass=" + lcclass );
-	
-}
-
-		 
-		 
+}	 
 </script>
 
 <style type="text/css">
-
-
-
 [class$="y-axis-lines"] path:nth-child(1){
 stroke: rgb(0, 0, 0) !important;
 stroke-width:2 !important;
@@ -77,8 +50,6 @@ stroke-width:2 !important;
 font-size:0.85em;display: inline !important;
 font-weight:normal;
 }
-
-
 </style>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -99,7 +70,9 @@ font-weight:normal;
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <img style="float:left;" src="milkwhite.png" width="50"><a class="navbar-brand" href="index.php">ThistleCAT <?php echo $libraryname; ?></a>
+          <img style="float:left;" src="milkwhite.png" width="50"><a class="navbar-brand" href="index.php">ThistleCAT <?php
+echo $libraryname;
+?></a>
         </div>
        
       </div>
@@ -120,23 +93,28 @@ $stmt1 = $pdo->prepare($sql1);
 $stmt1->execute();
 
 $recordresults1 = $stmt1->fetchAll();
-$prev = null;
-foreach ($recordresults1 as $val){
-if (strlen($val['class']) == 1){
-//check if last one was a last child that needs to be closed	
-	if (($prev == 'E') or ($prev == 'F')) {echo "<div></div>";}
-	if (strlen($prev) > 1) {echo "</div>";}
-	
-	echo '<h3 id="' . $val['class']. 'class" class="parent"><input id="' .  $val['class'] . '" type="radio" name="lcclass" value="' .  $val['class'] . '" onclick="this.form.submit();"> <label for="' .  $val['class'] . '">' .  $val['class'] . ' <small>' . $val['description'] . '</small></label></h3>';
-}
-else{
-	//check if last element was the parent or not
-	if (strlen($prev) == 1){echo "<div>";}
-	
-	echo '<input id="' .  $val['class'] . '" type="radio" name="lcclass" value="' .  $val['class'] . '" onclick="this.form.submit();"> <label for="' .  $val['class'] . '"><strong>' .  $val['class'] . '</strong> <small>' . $val['description'] . '</small></label><br />';
-}
-
-$prev = $val['class'];
+$prev           = null;
+foreach ($recordresults1 as $val) {
+    if (strlen($val['class']) == 1) {
+        //check if last one was a last child that needs to be closed	
+        if (($prev == 'E') or ($prev == 'F')) {
+            echo "<div></div>";
+        }
+        if (strlen($prev) > 1) {
+            echo "</div>";
+        }
+        
+        echo '<h3 id="' . $val['class'] . 'class" class="parent"><input id="' . $val['class'] . '" type="radio" name="lcclass" value="' . $val['class'] . '" onclick="this.form.submit();"> <label for="' . $val['class'] . '">' . $val['class'] . ' <small>' . $val['description'] . '</small></label></h3>';
+    } else {
+        //check if last element was the parent or not
+        if (strlen($prev) == 1) {
+            echo "<div>";
+        }
+        
+        echo '<input id="' . $val['class'] . '" type="radio" name="lcclass" value="' . $val['class'] . '" onclick="this.form.submit();"> <label for="' . $val['class'] . '"><strong>' . $val['class'] . '</strong> <small>' . $val['description'] . '</small></label><br />';
+    }
+    
+    $prev = $val['class'];
 }
 ?>
 </div>
@@ -164,34 +142,29 @@ var config = {
         labels: [
 		
 		<?php
-		$labelstr = '';
-		 foreach ($allyears as $curdate){
-			$labelstr .= '"' . $curdate['label'] . '",';	
-			};
-			rtrim($labelstr, ",");
-			echo $labelstr;
-?>
-		
-		
+$labelstr = '';
+foreach ($allyears as $curdate) {
+    $labelstr .= '"' . $curdate['label'] . '",';
+}
+;
+rtrim($labelstr, ",");
+echo $labelstr;
+?>	
 		
 		],
-		
-		
-		
-		
-		
-        
+
        datasets: [{
       
             data: [<?php
-		$datastr = '';
-		foreach ($allyears as $thispoint){
-			$datastr .= $thispoint['value'] . ',';	
-			};
-			rtrim($datastr, ",");
-			echo $datastr;
-			
-		?>],
+$datastr = '';
+foreach ($allyears as $thispoint) {
+    $datastr .= $thispoint['value'] . ',';
+}
+;
+rtrim($datastr, ",");
+echo $datastr;
+
+?>],
             backgroundColor: [],
         
             borderWidth: 0
@@ -317,12 +290,6 @@ myChart.update();
 
 $(document).ready(function(e) {
 //get position of chosen lc class among accordion headers so we know which one to expand
-
-//if (curclass == -1){
-//var findclass = "false";	
-//}
-//else {var findclass = curclass-1;}
-
   $( "#accordion" ).accordion({
   heightStyle: "content",
   collapsible: true,
@@ -331,7 +298,6 @@ $(document).ready(function(e) {
 	duration:200  
   }
 });
-
 
 });
 
