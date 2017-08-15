@@ -61,7 +61,7 @@
       <div class="jumbotron">
          <div class="container">
             <h2>Thistle Collection Analysis Tool</h2>
-            <p>ThistleCAT assists in analyzing your library's collection by providing data based on various paramaters including copyright date, total checkouts, and last checkout date.</p>
+            <p>ThistleCAT assists in analyzing your library's collection by providing data visualizations based on various paramaters including copyright date, total checkouts, and last checkout date.</p>
             <p>
                <a class="btn btn-primary btn-lg" href="overview.php" role="button">Collection visualizations &raquo;</a>
                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-success btn-lg" href="languages.php" role="button">Foreign language module&raquo;</a>
@@ -74,15 +74,12 @@
          <!-- Example row of columns -->
          <div class="row">
             <div class="col-md-4">
-               <!--      <h2>About this Tool</h2>
-                  <p>Please note that for performance reasons, data is not displayed in real time:<ul>
-                  <li>Total circulation history covers [insert dates].</li>
-                  <li>Last checkout date covers [insert dates]</li>
-                  <li>Holdings data is current as of [insert date].</li>
-                  </ul>
+                 <h2>About this Tool</h2>
+                  <p>ThistleCAT was developed in 2015 at the Virginia Military Institute's Preston Library.
+                  For more information, see <a href="http://www.thistlecat.org">http://www.thistlecat.org</a>.
                   </p>
                   <br />
-                  -->
+                
                <h2>Miscellaneous Views</h2>
                <ul>
                   <li><a href="allcheckouts.php">All Items by Total Checkouts</a></li>
