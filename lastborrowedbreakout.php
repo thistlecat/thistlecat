@@ -1,141 +1,124 @@
-
  <?php
- 
 
- 	//set variable names to prevent "undefined index" errors in log	
-	if (isset($_GET['lcclass'])){ $lcclass = $_GET['lcclass']; }
-	else {	$lcclass = "";}
-	
-
-	//check if it's a single letter only (i.e., distinguish between all of B, and B1-B9999; the latter will be represneted as B0
-if ((strlen($lcclass) == 2) and ($lcclass[1] == '0'))
-{
-$lcclass = $lcclass[0] . "[0-9]";
+//set variable names to prevent "undefined index" errors in log	
+if (isset($_GET['lcclass'])) {
+    $lcclass = $_GET['lcclass'];
+} else {
+    $lcclass = "";
 }
 
-include "config.php";	
+//check if it's a single letter only (i.e., distinguish between all of B, and B1-B9999; the latter will be represneted as B0
+if ((strlen($lcclass) == 2) and ($lcclass[1] == '0')) {
+    $lcclass = $lcclass[0] . "[0-9]";
+}
+
+include "config.php";
 include "includes/dbconnect.php";
-	
 
-include "includes/preparedates_multi.php"; 
-
+include "includes/preparedates_multi.php";
 
 //set upper limits of groups here
 $group0 = $last1;
 $group1 = $last2;
 
-
-
 //get group 0
-$sql = 'SELECT copyrightdate as label,  count(*) as value FROM ' . THIS_TABLE . ' WHERE itemcallnumber REGEXP :lcclass and lastborrowed is null GROUP BY copyrightdate';
+$sql  = 'SELECT copyrightdate as label,  count(*) as value FROM ' . THIS_TABLE . ' WHERE itemcallnumber REGEXP :lcclass and lastborrowed is null GROUP BY copyrightdate';
 $stmt = $pdo->prepare($sql);
-$stmt->execute( array(':lcclass' => "^" . $lcclass ) );
+$stmt->execute(array(
+    ':lcclass' => "^" . $lcclass
+));
 //use fetch group/unique to bring back years as keys---don't know how this works
 $group0results = $stmt->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_UNIQUE);
 //make sure all years show up; if not, add missing ones
-foreach ($allyears as $thisdate){
-	if (!array_key_exists($thisdate, $group0results)) {
-	$newdata1 =  array (
-      'value' => ''
-    );
-		$group0results[$thisdate] = $newdata1;
-}	
+foreach ($allyears as $thisdate) {
+    if (!array_key_exists($thisdate, $group0results)) {
+        $newdata1                 = array(
+            'value' => ''
+        );
+        $group0results[$thisdate] = $newdata1;
+    }
 }
 //sort to include the new years in the right spots
 ksort($group0results);
-
 //end getting group 0
 
 
 //get group 1
-$sql = 'SELECT copyrightdate as label,  count(*) as value FROM ' . THIS_TABLE . ' WHERE itemcallnumber REGEXP :lcclass and LEFT(lastborrowed,4) >= :group0 and LEFT(lastborrowed,4) <= :group1 GROUP BY copyrightdate';
+$sql  = 'SELECT copyrightdate as label,  count(*) as value FROM ' . THIS_TABLE . ' WHERE itemcallnumber REGEXP :lcclass and LEFT(lastborrowed,4) >= :group0 and LEFT(lastborrowed,4) <= :group1 GROUP BY copyrightdate';
 $stmt = $pdo->prepare($sql);
-$stmt->execute( array(':lcclass' => "^" . $lcclass, ':group0' => $group0,':group1' => $group1 ) );
+$stmt->execute(array(
+    ':lcclass' => "^" . $lcclass,
+    ':group0' => $group0,
+    ':group1' => $group1
+));
 //use fetch group/unique to bring back years as keys---don't know how this works
 $group1results = $stmt->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_UNIQUE);
 //make sure all years show up; if not, add missing ones
-foreach ($allyears as $thisdate){
-	if (!array_key_exists($thisdate, $group1results)) {
-	$newdata1 =  array (
-      'value' => ''
-    );
-		$group1results[$thisdate] = $newdata1;
-}	
+foreach ($allyears as $thisdate) {
+    if (!array_key_exists($thisdate, $group1results)) {
+        $newdata1                 = array(
+            'value' => ''
+        );
+        $group1results[$thisdate] = $newdata1;
+    }
 }
 //sort to include the new years in the right spots
 ksort($group1results);
-
 //end getting group 1
 
 //get group 2
-$sql = 'SELECT copyrightdate as label,  count(*) as value FROM ' . THIS_TABLE . ' WHERE itemcallnumber REGEXP :lcclass and LEFT(lastborrowed,4) > :group1 GROUP BY copyrightdate';
+$sql  = 'SELECT copyrightdate as label,  count(*) as value FROM ' . THIS_TABLE . ' WHERE itemcallnumber REGEXP :lcclass and LEFT(lastborrowed,4) > :group1 GROUP BY copyrightdate';
 $stmt = $pdo->prepare($sql);
-$stmt->execute( array(':lcclass' => "^" . $lcclass, ':group1' => $group1 ) );
+$stmt->execute(array(
+    ':lcclass' => "^" . $lcclass,
+    ':group1' => $group1
+));
 //use fetch group/unique to bring back years as keys---don't know how this works
 $group2results = $stmt->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_UNIQUE);
 //make sure all years show up; if not, add missing ones
-foreach ($allyears as $thisdate){
-	if (!array_key_exists($thisdate, $group2results)) {
-	$newdata1 =  array (
-      'value' => ''
-    );
-		$group2results[$thisdate] = $newdata1;
-}	
+foreach ($allyears as $thisdate) {
+    if (!array_key_exists($thisdate, $group2results)) {
+        $newdata1                 = array(
+            'value' => ''
+        );
+        $group2results[$thisdate] = $newdata1;
+    }
 }
 //sort to include the new years in the right spots
 ksort($group2results);
-
 //end getting group 2
 
 
-
-
 $jsoncategories = json_encode($alldates);
-$jsongroup0 = json_encode(array_values($group0results));
-$jsongroup1 = json_encode(array_values($group1results));
-$jsongroup2 = json_encode(array_values($group2results));
+$jsongroup0     = json_encode(array_values($group0results));
+$jsongroup1     = json_encode(array_values($group1results));
+$jsongroup2     = json_encode(array_values($group2results));
 
 //set page title here
 $pagetitle = "Total Items by Copyright Date";
 
-
-
 include "includes/header.php";
-
 
 ?>
 
 
 <script type="text/javascript">
-
 function getresults(year,series,lcclass){
 	$("#itemsgohere").load("results.php?year=" + year + "&series=" + series + "&lcclass=" + lcclass );
-	
 }
 
 $(document).ready(function(e) {
-
 var url = window.location.href;
 var matchvar = url.match(/\?lcclass=[A-Z]/gi);
 if(url.indexOf(matchvar) != -1){
-     $('input:radio[id=<?php echo $_GET['lcclass'];  ?>]').prop('checked', true);
+     $('input:radio[id=<?php echo $_GET['lcclass']; ?>]').prop('checked', true);
 }
 else{
 	     $('input:radio[id=All]').prop('checked', true);
-
 }
-});
-
-
-
-
-
-		 
+}); 
 		 
 </script>
-
-
-
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -145,7 +128,9 @@ else{
 
   <body>
 
- <?php include 'includes/navbar_class.php';?>
+ <?php
+include 'includes/navbar_class.php';
+?>
 
 
     <div class="container-fluid">
@@ -155,24 +140,36 @@ else{
       <form name="filteroptions" method="get" action="lastborrowedbreakout.php">
       
 <div id="accordion">
-<?php include "includes/classmenu.php";?>
+<?php
+include "includes/classmenu.php";
+?>
 
 </div>
 </div>
 </form>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                 <?php include "includes/collapseleft.php" ?>  
+                 <?php
+include "includes/collapseleft.php";
+?>  
 <div class="row">
 <div class="col-md-12">
  <?php
-   if ($lcclass == "") {$lcdisplay = "All Classes";}
-   elseif((strlen($lcclass) > 1) and ($lcclass[1] == '[')) {$lcdisplay = "LC Class: " . $lcclass[0] . "1 - " . $lcclass[0] . "9999";  }
-   else  {$lcdisplay = "LC Class: " . $lcclass;}
-   ?> 
+if ($lcclass == "") {
+    $lcdisplay = "All Classes";
+} elseif ((strlen($lcclass) > 1) and ($lcclass[1] == '[')) {
+    $lcdisplay = "LC Class: " . $lcclass[0] . "1 - " . $lcclass[0] . "9999";
+} else {
+    $lcdisplay = "LC Class: " . $lcclass;
+}
+?> 
    
    
-<h2><?php echo $lcdisplay; ?> <?php include "includes/expanded.php" ?></h2>     
+<h2><?php
+echo $lcdisplay;
+?> <?php
+include "includes/expanded.php";
+?></h2>     
       
           <span class="label label-success label-sm">Current Layer: Last Checkout Date</span>
 </div>
@@ -185,7 +182,8 @@ else{
 <div id="itemsgohere"></div>
 
  
-<?php include "includes/chart_lastborrowed.php"; 
+<?php
+include "includes/chart_lastborrowed.php";
 display_chart("Copyright Date");
 ?>
 
@@ -212,7 +210,7 @@ var pagename =  window.location.href.split("/").slice(-1);
 $('#navbar a[href="'+pagename+'"]').parent().addClass('active');
 
 //get position of chosen lc class among accordion headers so we know which one to expand
-   var curclass=	$("#<?php echo substr($lcclass,0,1) ?>class").parent().children('h3').index($('#<?php echo substr($lcclass,0,1) ?>class'));
+var curclass = $("#<?php echo substr($lcclass, 0, 1); ?>class").parent().children('h3').index($('#<?php echo substr($lcclass, 0, 1); ?>class'));
 if (curclass == -1){
 var findclass = "false";	
 }

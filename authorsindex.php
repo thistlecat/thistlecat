@@ -1,98 +1,86 @@
  <?php
 
-
-
 include "config.php";
 include "includes/dbconnect.php";
 
-
-
 //get all possible authors for master list
 $authorarray = array();
-$sql0 = 'SELECT authorname, cnstart, cnend, totals FROM ' . AUTHOR_TABLE . ' ORDER BY totals DESC';
-$stmt = $pdo->prepare($sql0);
-$stmt->execute( );
+$sql0        = 'SELECT authorname, cnstart, cnend, totals FROM ' . AUTHOR_TABLE . ' ORDER BY totals DESC';
+$stmt        = $pdo->prepare($sql0);
+$stmt->execute();
 $allauthors = $stmt->fetchAll();
 
-foreach ($allauthors as $vauth){
-$authorarray[] = array(
-    "label" => $vauth['authorname'],
-   "value" => $vauth['totals'],
-  );
-	
- }
-
-
+foreach ($allauthors as $vauth) {
+    $authorarray[] = array(
+        "label" => $vauth['authorname'],
+        "value" => $vauth['totals']
+    );
+}
 
 //get stats for each region
 $sqlPR = 'SELECT issues FROM allitems WHERE cn_sort REGEXP "^PR"';
-$stmt = $pdo->prepare($sqlPR);
-$stmt->execute( );
+$stmt  = $pdo->prepare($sqlPR);
+$stmt->execute();
 $totalPR = $stmt->rowCount();
 
 $sqlPR = 'SELECT issues FROM allitems WHERE cn_sort REGEXP "^PR" and issues = 0';
-$stmt = $pdo->prepare($sqlPR);
-$stmt->execute( );
+$stmt  = $pdo->prepare($sqlPR);
+$stmt->execute();
 $noissuesPR = $stmt->rowCount();
 
 $sqlPR1 = 'SELECT issues FROM allitems WHERE cn_sort REGEXP "^PR" and issues > 0 and issues < 6';
-$stmt = $pdo->prepare($sqlPR1);
-$stmt->execute( );
+$stmt   = $pdo->prepare($sqlPR1);
+$stmt->execute();
 $issues15PR = $stmt->rowCount();
 
 $sqlPR2 = 'SELECT issues FROM allitems WHERE cn_sort REGEXP "^PR" and issues > 5 and issues < 11';
-$stmt = $pdo->prepare($sqlPR2);
-$stmt->execute( );
+$stmt   = $pdo->prepare($sqlPR2);
+$stmt->execute();
 $issues610PR = $stmt->rowCount();
 
 $sqlPR3 = 'SELECT issues FROM allitems WHERE cn_sort REGEXP "^PR" and issues > 10';
-$stmt = $pdo->prepare($sqlPR3);
-$stmt->execute( );
+$stmt   = $pdo->prepare($sqlPR3);
+$stmt->execute();
 $issues10PR = $stmt->rowCount();
 
 
 //get stats for each region
 $sqlPS = 'SELECT issues FROM allitems WHERE cn_sort REGEXP "^PS"';
-$stmt = $pdo->prepare($sqlPS);
-$stmt->execute( );
+$stmt  = $pdo->prepare($sqlPS);
+$stmt->execute();
 $totalPS = $stmt->rowCount();
 
 $sqlPS = 'SELECT issues FROM allitems WHERE cn_sort REGEXP "^PS" and issues = 0';
-$stmt = $pdo->prepare($sqlPS);
-$stmt->execute( );
+$stmt  = $pdo->prepare($sqlPS);
+$stmt->execute();
 $noissuesPS = $stmt->rowCount();
 
 $sqlPS1 = 'SELECT issues FROM allitems WHERE cn_sort REGEXP "^PS" and issues > 0 and issues < 6';
-$stmt = $pdo->prepare($sqlPS1);
-$stmt->execute( );
+$stmt   = $pdo->prepare($sqlPS1);
+$stmt->execute();
 $issues15PS = $stmt->rowCount();
 
 $sqlPS2 = 'SELECT issues FROM allitems WHERE cn_sort REGEXP "^PS" and issues > 5 and issues < 11';
-$stmt = $pdo->prepare($sqlPS2);
-$stmt->execute( );
+$stmt   = $pdo->prepare($sqlPS2);
+$stmt->execute();
 $issues610PS = $stmt->rowCount();
 
 $sqlPS3 = 'SELECT issues FROM allitems WHERE cn_sort REGEXP "^PS" and issues > 10';
-$stmt = $pdo->prepare($sqlPS3);
-$stmt->execute( );
+$stmt   = $pdo->prepare($sqlPS3);
+$stmt->execute();
 $issues10PS = $stmt->rowCount();
 
 
 //set page title here
 $pagetitle = "Literature Module";
 
-
-
 include "includes/header.php";
-
 
 ?>
 
     
 <style>
-
 .litsection{float:left;margin-left:5px;border-right:#dddddd 1px solid;margin-top:20px;}
-
 </style>
 
 <script type="text/javascript">
@@ -105,21 +93,11 @@ function getresults(year,series,lcclass){
 }
 
 $(document).ready(function(e) {
-
 //enable table sorter
 $("#resultstab").tablesorter(); 
-
-
-});
-
-
-
-		 
+});	 
 		 
 </script>
-
-
-
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -139,7 +117,9 @@ $("#resultstab").tablesorter();
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <img style="float:left;" src="milkwhite.png" width="50"><a class="navbar-brand" href="index.php">ThistleCAT <?php echo $libraryname; ?></a>
+          <img style="float:left;" src="milkwhite.png" width="50"><a class="navbar-brand" href="index.php">ThistleCAT <?php
+echo $libraryname;
+?></a>
         </div>
         
             
@@ -175,9 +155,9 @@ $("#resultstab").tablesorter();
               </thead>
               <tbody>
 <?php
-foreach ($authorarray as $va){
-echo "<tr><td><small><a href='authors.php?author=" . $va['label'] . "'>" . $va['label'] . "</a></small></td><td><small>" . 	$va['value'] . "</small></td></tr>";
-	
+foreach ($authorarray as $va) {
+    echo "<tr><td><small><a href='authors.php?author=" . $va['label'] . "'>" . $va['label'] . "</a></small></td><td><small>" . $va['value'] . "</small></td></tr>";
+    
 }
 
 ?>
