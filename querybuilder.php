@@ -332,10 +332,10 @@ if (!isset($parsedurl['query'])) {
         }
         if ($k == 'special') {
             if ($v == 'yes') {
-                $queryarray[] = ' special LIKE "*VIVA*"';
+                $queryarray[] = ' special REGEXP "VIVA"';
             }
             if ($v == 'no') {
-                $queryarray[] = ' special NOT LIKE "*VIVA*"';
+                $queryarray[] = ' special NOT REGEXP "VIVA"';
             }
         }
         if ($k == 'duplicates') {
