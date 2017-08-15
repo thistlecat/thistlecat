@@ -12,11 +12,8 @@ include "includes/header.php";
 <script type="text/javascript">
 $(document).ready(function() 
     { 
-	
 	    $('[data-toggle="tooltip"]').tooltip({
-
         placement : 'top'
-
     });
 	
     //activate table sorter
@@ -80,10 +77,11 @@ $(document).ready(function()
 ); 
 
 
+
 </script>
 
  <link href="css/grid.css" rel="stylesheet">
-	 
+		
 
 <style type="text/css">
 #lclist li {
@@ -229,7 +227,7 @@ Copyright Date<br />
       
   <BR />
   
-    <input type="checkbox" value="yes" name="duplicates" id="duplicates"> <label for="duplicates">Has Possible Duplicates</label>
+ <!--   <input type="checkbox" value="yes" name="duplicates" id="duplicates"> <label for="duplicates">Has Possible Duplicates</label> -->
 
   <BR />  <BR />
 
@@ -261,6 +259,7 @@ if (!isset($parsedurl['query'])) {
         echo '<input type="Submit" class="btn btn-primary" value="Save Statuses"><br />';
         
     }
+     
     
     //construct our query - the fun part
     //convert the terms into an array
@@ -359,7 +358,8 @@ if (!isset($parsedurl['query'])) {
     
     
     $thisquery = implode(" and ", $queryarray);
-
+    
+    
     include "includes/dbconnect.php";
     
     $sql0 = 'SELECT title,author,itemcallnumber,cn_sort,issues,copyrightdate,barcode,oclc,biblionumber,lastborrowed,special,duplicates,language,status FROM ' . THIS_TABLE . ' WHERE' . $thisquery . ' ORDER BY cn_sort ASC';
@@ -402,27 +402,33 @@ if (!isset($parsedurl['query'])) {
             
             //calculate percentage
             $desirednumber = round(($query_array['percent'] / 100) * $searchresultstotal['totalcount']);
-
+            
+            
+            
             //make sure it's not higher than the total results brought back
             if ($desirednumber > count($searchresults)) {
                 echo "These search parameters retreive  " . round(count($searchresults) / $searchresultstotal['totalcount'] * 100) . "% of the range.";
                 
             } else {
                 
+                
                 $shortarray = array_slice($shortarray, 0, $desirednumber);
                 
                 $searchresults = $shortarray;
                 //get last date in array, to find the cutoff
                 $datecutoff    = $shortarray[$desirednumber - 1]['copyrightdate'];
-                echo "<h4><span class='label label-primary'>Date cutoff for " . $query_array['percent'] . "%: " . $datecutoff . "</span></h4>";     
+                echo "<h4><span class='label label-primary'>Date cutoff for " . $query_array['percent'] . "%: " . $datecutoff . "</span></h4>";
+                
             }
+            
         }
     }
     
     if (count($searchresults) > 5000) {
         echo "Your search retrieved " . count($searchresults) . " results, but ThistleCAT can only display a maximum of 5000. Please modify your search in the form on the left.";
-        exit();   
+        exit(); 
     }
+    
     
     echo '  
         <a download="thistlecat_export.csv" href="#" onClick="return ExcellentExport.csv(this, \'resultstab\');">
@@ -450,12 +456,14 @@ if (!isset($parsedurl['query'])) {
                 </tr>
               </thead>
               <tbody>';
-   
+    
+    
     
     echo '<div class="container">';
     echo '<div class="row text-center"><strong>' . count($searchresults) . " Items</strong></div>";
     echo '<div class="row text-center"><span class="label label-default">Your query: ' . $thisquery . '</span></div>';
     echo '</div>';
+    
     
     foreach ($searchresults as $v2) {
         echo "<tr class='" . $v2['status'] . "'>";
@@ -466,14 +474,19 @@ if (!isset($parsedurl['query'])) {
             echo $v2['status'];
 ?></div>
  <div class="radio">
-  <label><input type="radio" name="<?php echo $v2['barcode']; ?>"<?php
+  <label><input type="radio" name="<?php
+            echo $v2['barcode'];
+?>"<?php
             if ($v2['status'] == 'Keep') {
                 echo " checked='checked'";
             }
 ?> value="Keep" />Keep</label>
 </div>
 <div class="radio">
-  <label><input type="radio" name="<?php echo $v2['barcode']; ?>"<?phpif ($v2['status'] == 'Weed') {
+  <label><input type="radio" name="<?php
+            echo $v2['barcode'];
+?>"<?php
+            if ($v2['status'] == 'Weed') {
                 echo " checked='checked'";
             }
 ?> value="Weed" />Weed</label>
@@ -519,7 +532,8 @@ if (!isset($parsedurl['query'])) {
             
         } else {
             echo $v2['title'];
-   
+            
+            
         }
         if ($v2['duplicates']) {
             echo "<br /><small class='text-muted'>Possible duplicates:</small> ";
@@ -555,11 +569,17 @@ if (!isset($parsedurl['query'])) {
 }
 
 if ($logstatus == "loggedin") {
+    
+    
+    
     echo ' </form>';
 }
 
-?>      
-	      </div>
+?>
+
+            </div>
+
+       
         </div>
       </div>
     </div>
@@ -571,6 +591,8 @@ if ($logstatus == "loggedin") {
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="js/ie10-viewport-bug-workaround.js"></script>
-   
+    
+
+
   </body>
 </html>
