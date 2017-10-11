@@ -147,7 +147,7 @@ include "includes/navbar.php";
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
     
-      <form name="filteroptions" method="get" action="languagesbreakout.php">
+      <form name="filteroptions" method="get" action="langbreakout.php">
       
 <div id="accordion">
 <?php
