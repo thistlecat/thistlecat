@@ -1,5 +1,7 @@
 <?php
 
+$rangecheck = "";
+
 function ipCIDRCheck($IP, $CIDR) {
     list ($net, $mask) = explode ('/', $CIDR);
     $ip_net = ip2long ($net);
