@@ -2,17 +2,6 @@
 
 include "includes/dbconnect.php";
 
-//first get all possible classifications in this query
-$sql0 = 'SELECT LEFT(class,1) as label FROM LCclasses GROUP BY LEFT(class,1)';
-$stmt = $pdo->prepare($sql0);
-$stmt->execute();
-$allclasses  = $stmt->fetchAll();
-$classesonly = array();
-foreach ($allclasses as $v2) {
-    $classesonly[] = $v2['label'];
-}
-
-
 $sql  = 'SELECT LEFT(itemcallnumber,1) as label, count(*) as value FROM ' . THIS_TABLE . ' GROUP BY LEFT(itemcallnumber,1)';
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
