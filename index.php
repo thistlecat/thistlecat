@@ -62,7 +62,7 @@
          <div class="container">
             <h2>Thistle Collection Analysis Tool</h2>
 
-            <p>ThistleCAT assists in analyzing your library's collection by providing data visualizations based on various paramaters including copyright date, total checkouts, and last checkout date.</p>
+            <p>ThistleCAT assists in analyzing your library's collection by providing data visualizations based on various parameters including copyright date, total checkouts, and last checkout date.</p>
 
             
             <p>
