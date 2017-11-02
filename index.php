@@ -61,10 +61,7 @@
       <div class="jumbotron">
          <div class="container">
             <h2>Thistle Collection Analysis Tool</h2>
-
             <p>ThistleCAT assists in analyzing your library's collection by providing data visualizations based on various parameters including copyright date, total checkouts, and last checkout date.</p>
-
-            
             <p>
                <a class="btn btn-primary btn-lg" href="overview.php" role="button">Collection visualizations &raquo;</a>
                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-success btn-lg" href="languages.php" role="button">Foreign language module&raquo;</a>
@@ -77,13 +74,11 @@
          <!-- Example row of columns -->
          <div class="row">
             <div class="col-md-4">
-
-                 <h2>About this Tool</h2>
+                <h2>About this Tool</h2>
                   <p>ThistleCAT was developed in 2015 at the Virginia Military Institute's Preston Library.
                   For more information, see <a href="http://www.thistlecat.org">http://www.thistlecat.org</a>.
                   </p>
-                  <br />
-                
+				  <br />
                <h2>Miscellaneous Views</h2>
                <ul>
                   <li><a href="allcheckouts.php">All Items by Total Checkouts</a></li>
@@ -147,12 +142,21 @@
             <div class="col-md-4">
                <h2>Query Builder</h2>
                <form name="queryform" action="querybuilder.php">
-                  Call Number starts with...<br />
-                  <div class="form-inline">
-                     <input  class="form-control input-sm" type="text" size="20" name="itemcallnumber" placeholde="Call number" />
-                  </div>
-                  <br />
-                  Copyright Date<br />
+                   <div class="queryheader">Call Number</div> 
+       <label class="radio-inline"><input type="radio" id="radiostart" name="callnotype">starts with</label>
+
+<label class="radio-inline"><input type="radio" id="radiobw" name="callnotype">is between</label>
+
+
+    <div class="form-inline">
+   <input  class="form-control input-sm" type="text" size="20" name="itemcallnumberstart" id="itemcallnumberstart" placeholder="Call number start" /><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Only enter LC classes or class numbers, not Cutter numbers (e.g., RB or RB120, not RB120 .D49)"></i>
+   </div>
+   <div class="form-inline">
+   <input  class="form-control input-sm" type="text" size="20" name="itemcallnumberend" id="itemcallnumberend" placeholder="Call number end"/>
+   </div>
+    <br />
+            
+                  <div class="queryheader">Copyright Date</div>
                   <div class="form-inline">
                      <select  class="form-control input-sm" name="datefmt" >
                         <option value="before">Before</option>
@@ -162,7 +166,7 @@
                      <input  class="form-control input-sm" type="text" size="10" name="copyrightdate" placeholder="YYYY" />
                   </div>
                   <br />
-                  Total Checkouts<br />
+                  <div class="queryheader">Total Checkouts</div>
                   <div class="form-inline">
                      <select  class="form-control input-sm"  name="checkoutfmt"  >
                         <option value="less">Fewer than</option>
@@ -172,7 +176,7 @@
                      <input  class="form-control input-sm" type="text" size="5" name="issues" />
                   </div>
                   <br />
-                  Last Checkout Date<br />
+                  <div class="queryheader">Last Checkout Date</div>
                   <div class="form-inline">
                      <select  class="form-control input-sm"  name="lastdatefmt" >
                         <option value="before">Before</option>
@@ -182,7 +186,7 @@
                      <input  class="form-control input-sm" type="text" size="10" placeholder="YYYY" name="lastborrowed" />
                   </div>
                   <BR />
-                  Select Language...<br />
+                  <div class="queryheader">Language</div>
                   <select  class="form-control input-sm"  name="language" id="language" >
                      <option value="">All</option>
                      <option value="noneng">All non-English</option>
@@ -199,7 +203,7 @@
                      <option value="spa">Spanish</option>
                   </select>
                   <BR />
-                  VIVA Protected Status<br />
+                  <div class="queryheader">VIVA Protected Status</div>
                   <select  class="form-control input-sm"  name="special" >
                      <option value="">All</option>
                      <option value="yes">Protected</option>
@@ -285,6 +289,24 @@
          
          }
          $(document).ready(function(e) {
+		 $('#itemcallnumberend').attr("disabled","disabled");
+
+if ($("#radiobw").is(':checked')) {
+  $('#itemcallnumberend').removeAttr("disabled");
+}
+
+$('#radiostart').click(function()
+{
+  $('#itemcallnumberend').attr("disabled","disabled");
+   $('#itemcallnumberend').val("");
+});
+
+$('#radiobw').click(function()
+{
+	  $('#itemcallnumberend').removeAttr("disabled");
+
+});
+
               $('[data-toggle="tooltip"]').tooltip({
          
                 placement : 'top'
