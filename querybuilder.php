@@ -8,11 +8,53 @@ include 'config.php';
 include 'includes/ipauth.php';
 
 include "includes/header.php";
+
+// function to convert itemcallnumber to cnsort
+function cnsort_convert($callno)
+	{
+	// make sure first char is letter
+	if (is_numeric($callno[0]))
+		{
+		return false;
+		exit;
+		}
+	  else
+		{
+		// find position of first number
+		if (preg_match('/[0-9]/', $callno, $matches, PREG_OFFSET_CAPTURE))
+			{
+			$numposition = $matches[0][1];
+			// find out how long number is
+			$numlen = strlen($callno) - $numposition;
+			// get full num
+			$fullnumber = substr($callno, $numposition, $numlen);
+			// pad with necessary zeroes to make it 4 digits
+			return substr($callno, 0, $numposition) . str_pad($fullnumber, 4, "0", STR_PAD_LEFT);
+			}
+		// if no numbers, return what was entered (no need to convert)
+		  else
+			{
+			return $callno;
+			exit;
+			}
+		}
+	}
+	
 ?>
 <script type="text/javascript">
 $(document).ready(function() 
-    { 
-	    $('[data-toggle="tooltip"]').tooltip({
+ {
+     $('#itemcallnumberend').attr("disabled", "disabled");
+     $("#radiostart").prop("checked", true);
+
+     $('#radiostart').click(function() {
+         $('#itemcallnumberend').attr("disabled", "disabled");
+         $('#itemcallnumberend').val("");
+     });
+     $('#radiobw').click(function() {
+         $('#itemcallnumberend').removeAttr("disabled");
+     });
+	 $('[data-toggle="tooltip"]').tooltip({
         placement : 'top'
     });
 	
@@ -27,8 +69,12 @@ $(document).ready(function()
 		//check last character of string to see if the term is emtpy or not
 		if (urlterms[i].slice(-1) != "="){
 			var strsplit = urlterms[i].split('=');
-			      if (strsplit[0] == 'itemcallnumber'){
-					  		$("#itemcallnumber").val(strsplit[1]);
+			     if (strsplit[0] == 'itemcallnumberstart'){
+					  		$("#itemcallnumberstart").val(strsplit[1]);
+							}
+				if (strsplit[0] == 'itemcallnumberend'){
+					  		$("#itemcallnumberend").val(strsplit[1]);
+							if (strsplit[1] != ""){$('#itemcallnumberend').removeAttr("disabled");$("#radiobw").prop("checked", true);}
 							}
 				if (strsplit[0] == 'percent'){
 					  		$("#percent").val(strsplit[1]);
@@ -146,13 +192,24 @@ echo $libraryname;
         <div class="col-sm-3 col-md-2 sidebar">
         
        <form name="queryform" action="querybuilder.php">  
-    Call Number starts with...<br />
-    <div class="form-inline">
-   <input  class="form-control input-sm" type="text" size="20" name="itemcallnumber" id="itemcallnumber" placeholde="Call number" /></div>
-    <br />
+<div class="queryheader">Call Number</div>
+
+<label class="radio-inline"><input type="radio" id="radiostart" name="callnotype">starts with</label>
+
+<label class="radio-inline"><input type="radio" id="radiobw" name="callnotype">is between</label>
+
+
+<div class="form-inline">
+    <input class="form-control input-sm" type="text" size="20" name="itemcallnumberstart" id="itemcallnumberstart" placeholder="Call number start" /><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Only enter LC classes or class numbers, not Cutter numbers (e.g., RB or RB120, not RB120 .D49)"></i>
+</div>
+<div class="form-inline">
+    <input class="form-control input-sm" type="text" size="20" name="itemcallnumberend" id="itemcallnumberend" placeholder="Call number end" />
+</div>
+<br />
+
             
         
-Copyright Date<br />
+<div class="queryheader">Copyright Date</div>
     <div class="form-inline"><select  class="form-control input-sm" name="datefmt" id="datefmt" >
        <option value="before">Before</option>
     <option value="after">After</option>
@@ -161,7 +218,7 @@ Copyright Date<br />
    <input  class="form-control input-sm" type="text" size="10" name="copyrightdate" id="copyrightdate" placeholder="YYYY" /></div>
     <br />
         
-   Total Checkouts<br />
+   <div class="queryheader">Total Checkouts</div>
     <div class="form-inline"><select  class="form-control input-sm"  name="checkoutfmt" id="checkoutfmt"  >
        <option value="less">Fewer than</option>
     <option value="greater">Greater than</option>
@@ -170,7 +227,7 @@ Copyright Date<br />
    <input  class="form-control input-sm" type="text" size="5" name="issues" id="issues" /></div>
       
         <br />
-         Last Checkout Date<br />
+         <div class="queryheader">Last Checkout Date</div>
     <div class="form-inline"><select  class="form-control input-sm"  name="lastdatefmt" id="lastdatefmt" >
     <option value="before">Before</option>
    <option value="after">After</option>
@@ -182,7 +239,7 @@ Copyright Date<br />
    
 <BR />
    
-    Select Language...<br />
+    <div class="queryheader">Language</div>
    <select  class="form-control input-sm"  name="language" id="language" >
     <option value="">All</option>
     <option value="noneng">All non-English</option>
@@ -203,7 +260,7 @@ Copyright Date<br />
       
    <BR />
    
-    VIVA Protected Status<br />
+    <div class="queryheader">VIVA Protected Status</div>
    <select  class="form-control input-sm"  name="special" id="special" >
      <option value="">All</option>
     <option value="yes">Protected</option>
@@ -216,7 +273,7 @@ Copyright Date<br />
 
   <BR />  <BR />
 
-    Percentage of Class to Weed <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Enter a value here to determine the best cutoff date if you only want to weed a certain percentage of the specified call number range."></i><br />
+    <div class="queryheader">Percentage of Class to Weed <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Enter a value here to determine the best cutoff date if you only want to weed a certain percentage of the specified call number range."></i></div>
     <div class="form-inline">
    <input  class="form-control input-sm" type="text" size="20" name="percent" id="percent" placeholder="Enter number" />%</div>
 <br /><br />
@@ -253,13 +310,19 @@ if (!isset($parsedurl['query'])) {
     $queryarray = array();
     
     foreach ($query_array as $k => $v) {
-        if (($k == 'itemcallnumber') and ($v <> "")) {
-            $queryarray[] = ' itemcallnumber like "' . $v . '%"';
-        }
-        
-        
-        
-        
+    //determine if single call number or range
+if (($k == 'itemcallnumberstart') and ($v <> "") and (($query_array['itemcallnumberend'] == "") or !isset($query_array['itemcallnumberend']))) {
+$callnumberquery = ' cn_sort like "' . cnsort_convert($v) . '%"';
+$queryarray[] = $callnumberquery;
+	}
+	
+//only use less than or equal to if it's a subclass only
+if (($k == 'itemcallnumberstart') and ($v <> "") and ($query_array['itemcallnumberend'] <> "") and isset($query_array['itemcallnumberend'])) {
+$callnumberquery = ' ((cn_sort > "' . cnsort_convert($v) . '" and cn_sort < "' . cnsort_convert($query_array['itemcallnumberend']) . '") OR cn_sort LIKE "' . cnsort_convert($query_array['itemcallnumberend']) . '%")' ;
+$queryarray[] = $callnumberquery;
+	}
+
+
         if (($k == 'copyrightdate') and ($v <> "")) {
             $thisformat = $query_array['datefmt'];
             if ($thisformat == 'before') {
@@ -347,7 +410,7 @@ if (!isset($parsedurl['query'])) {
     
     include "includes/dbconnect.php";
     
-    $sql0 = 'SELECT title,author,itemcallnumber,cn_sort,issues,copyrightdate,barcode,oclc,biblionumber,lastborrowed,special,duplicates,language,status FROM ' . THIS_TABLE . ' WHERE' . $thisquery . ' ORDER BY cn_sort ASC';
+    $sql0 = 'SELECT * FROM ' . THIS_TABLE . ' WHERE' . $thisquery . ' ORDER BY cn_sort ASC';
     
     $stmt = $pdo->prepare($sql0);
     $stmt->execute();
@@ -380,7 +443,7 @@ if (!isset($parsedurl['query'])) {
             $shortarray = removeElementWithValue($shortarray, "copyrightdate", 0);
             
             //find out how many results total are in this class (to calculate percentage)
-            $sqltotal = 'SELECT count(*) as totalcount FROM ' . THIS_TABLE . ' WHERE itemcallnumber like "' . $query_array['itemcallnumber'] . '%"';
+            $sqltotal = 'SELECT count(*) as totalcount FROM ' . THIS_TABLE . ' WHERE ' . $callnumberquery;
             $stmt     = $pdo->prepare($sqltotal);
             $stmt->execute();
             $searchresultstotal = $stmt->fetch();
@@ -392,7 +455,7 @@ if (!isset($parsedurl['query'])) {
             
             //make sure it's not higher than the total results brought back
             if ($desirednumber > count($searchresults)) {
-                echo "These search parameters retreive  " . round(count($searchresults) / $searchresultstotal['totalcount'] * 100) . "% of the range.";
+                echo "These search parameters retrieve  " . round(count($searchresults) / $searchresultstotal['totalcount'] * 100) . "% of the range.";
                 
             } else {
                 
@@ -403,7 +466,17 @@ if (!isset($parsedurl['query'])) {
                 //get last date in array, to find the cutoff
                 $datecutoff    = $shortarray[$desirednumber - 1]['copyrightdate'];
                 echo "<h4><span class='label label-primary'>Date cutoff for " . $query_array['percent'] . "%: " . $datecutoff . "</span></h4>";
-                
+				
+				//reset the sort by call number
+                function cmp($a, $b)
+					{
+						if ($a["cn_sort"] == $b["cn_sort"]) {
+							return 0;
+						}
+						return ($a["cn_sort"] < $b["cn_sort"]) ? -1 : 1;
+					}
+					
+					usort($searchresults,"cmp");
             }
             
         }
