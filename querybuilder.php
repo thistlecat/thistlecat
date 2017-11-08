@@ -157,8 +157,13 @@ th { cursor: pointer; }
 .Check{
 	background-color:#ccc !important;
 }
-
-
+#callnoexpl{
+	background-color:#efefef;	
+	padding: 5px 15px;	
+}
+#callnoexpl .label{
+	margin-left: 15px;
+}
 </style>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -200,15 +205,17 @@ echo $libraryname;
 
 
 <div class="form-inline">
-    <input class="form-control input-sm" type="text" size="20" name="itemcallnumberstart" id="itemcallnumberstart" placeholder="Call number start" /><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Only enter LC classes or class numbers, not Cutter numbers (e.g., RB or RB120, not RB120 .D49)"></i>
+    <input class="form-control input-sm" type="text" size="20" name="itemcallnumberstart" id="itemcallnumberstart" placeholder="Call number start" />
 </div>
 <div class="form-inline">
     <input class="form-control input-sm" type="text" size="20" name="itemcallnumberend" id="itemcallnumberend" placeholder="Call number end" />
 </div>
 <br />
-
-            
-        
+       <button type="button" class="btn btn-default btn-xs" data-toggle="collapse" data-target="#callnoexpl"><i class="fa fa-question-circle"></i> Formatting Call Numbers</button>
+  <div id="callnoexpl" class="collapse">
+    <span class=" small text-muted">Only enter LC classes or whole class numbers, not Cutter numbers or decimals. </span><br /><span class="label label-success">Good: RB, RB120</span><br /><span class="label label-danger">Bad: RB120 .D49, QA76.5</span>
+  </div>      
+         <br /><br />    
 <div class="queryheader">Copyright Date</div>
     <div class="form-inline"><select  class="form-control input-sm" name="datefmt" id="datefmt" >
        <option value="before">Before</option>
